@@ -99,11 +99,11 @@ public class TabixReaderTest extends HtsjdkTest {
         Assert.assertNotNull(iter);
         Assert.assertNull(iter.next());
 
-        iter=tabixReader.query("1",-1,Integer.MAX_VALUE);
+        iter = tabixReader.query("1", -1, Integer.MAX_VALUE);
         Assert.assertNotNull(iter);
         Assert.assertNull(iter.next());
 
-        iter=tabixReader.query("1",Integer.MAX_VALUE,-1);
+        iter = tabixReader.query("1", Integer.MAX_VALUE, -1);
         Assert.assertNotNull(iter);
         Assert.assertNull(iter.next());
 
@@ -169,5 +169,21 @@ public class TabixReaderTest extends HtsjdkTest {
         }
         assertTrue(nRecords > 0);
 
+    }
+
+    @Test
+    public void testParseReg() {
+        try {
+            TabixReader t = new TabixReader(tabixFile);
+            int[] k = t.parseReg("1:100");
+            TabixReader.Iterator i = t.query(k[0], k[1], k[2]);
+
+            System.out.println(i.next());
+            System.out.println(i.next());
+            System.out.println(i.next());
+            System.out.println(k[0] + " " + k[1] + " " + k[2]);
+        } catch(Exception e) {
+            System.out.println("Exception" + e.getMessage());
+        }
     }
 }

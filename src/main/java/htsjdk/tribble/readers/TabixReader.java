@@ -431,10 +431,10 @@ public class TabixReader {
 
     /**
      * Get an iterator for an interval specified by the sequence id and begin and end coordinates
-     * @param tid Sequence id
-     * @param beg beginning of interval, genomic coords
-     * @param end end of interval, genomic coords
-     * @return an iterator over the lines within the specified interval
+     * @param tid Sequence id, if non-existent returns EOF_ITERATOR
+     * @param beg beginning of interval, genomic coords (0-based, closed-open)
+     * @param end end of interval, genomic coords (0-based, closed-open)
+     * @return an iterator over the specified interval
      */
     public Iterator query(final int tid, final int beg, final int end) {
         TPair64[] off, chunks;
@@ -494,7 +494,7 @@ public class TabixReader {
      *
      * @see #parseReg(String)
      * @param reg A region string of the form acceptable by {@link #parseReg(String)}
-     * @return
+     * @return an iterator over the specified interval
      */
     public Iterator query(final String reg) {
         int[] x = parseReg(reg);
@@ -507,10 +507,10 @@ public class TabixReader {
     * @param reg a chromosome
     * @param start start interval
     * @param end end interval
-    * @return a tabix iterator
+    * @return a tabix iterator over the specified interval
     */
-   public Iterator query(final String reg,int start,int end) {
-       int tid=this.chr2tid(reg);
+   public Iterator query(final String reg, int start, int end) {
+       int tid = this.chr2tid(reg);
        return query(tid, start, end);
    }
 
